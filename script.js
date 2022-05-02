@@ -9,7 +9,7 @@ temp.forEach((item) => {
         .replace('×', '*')
         .replace('÷', '/')
         .replace('%', '/100*');
-      let antwort = eval(equasion);
+      let antwort = eval(equasion).toFixed(2);
       inputLine.value = antwort;
       console.log(antwort);
     } else if (item.innerText == 'CE') {
