@@ -68,10 +68,73 @@ function curry(fnk) {
 
 const curriedSum = curry(sum);
 console.log(curriedSum(1)(1)(1));
-//////////////////////////////////this
+//////////////////////////////////-----this-------//////////////////////////////////////
 
 function sayMyName(name) {
   console.log(`my name is ${name}`);
 }
 
 sayMyName('Katzablancka');
+////////////////////////////////implicit binding
+const KATZA = {
+  position: 'number one',
+  zweck: function () {
+    console.log(`Ich werde alles machen, um ${this.position} zu sein `);
+  },
+};
+
+KATZA.zweck();
+
+////////////////////////////////explicit binding
+function SagMeinZweck() {
+  console.log(`Mein Zweck ist vor allem ${this.position} zu sein`);
+}
+
+SagMeinZweck.call(KATZA);
+
+///////////////////////////////new binding
+function MeineZiele(ziel, fristen) {
+  this.ziel = ziel;
+  this.fristen = fristen;
+}
+
+const one = new MeineZiele('React', 'August');
+const two = new MeineZiele('JS', 'Drei Wochen');
+
+console.log(
+  `Nämlich habe ich vor ${one.ziel} bis ${one.fristen} und ${two.ziel} bis ${two.fristen} zu beherrschen`
+);
+////////////////////////////default binding
+globalThis.position = 'Nummer Eins';
+SagMeinZweck();
+
+//order off precedence ->new->explicit->implicit->default
+
+/////////////////////////////////////////----proptotype-----///////////////////////////////////////////////
+
+function Person(Vornahme, Nachnahme) {
+  this.vor = Vornahme;
+  this.nach = Nachnahme;
+}
+
+const p1 = new Person('Anna', 'Khalus');
+const p2 = new Person('Katza', 'Blancka');
+
+p1.ganzeNahme = function () {
+  return this.vor + ' ' + this.nach;
+};
+
+console.log(p1.ganzeNahme());
+// console.log(p2.ganzeNahme());///will not work for other objects
+
+Person.prototype.callOut = function () {
+  return (
+    'Nämlich gibt es viele Nahmen für diese Person - ' +
+    this.vor +
+    ' ' +
+    this.nach
+  );
+};
+
+console.log(p1.callOut());
+console.log(p2.callOut());
