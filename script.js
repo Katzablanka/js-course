@@ -213,3 +213,14 @@ const obj_iteration = {
 for (const word of obj_iteration) {
   console.log(word);
 }
+
+/////////////////////////////////////------------generators----------///////////////////////////////////////////////
+//////das ist dieselbe Sache aber zwei mal einfacher als vorher
+function* generatorFunc() {
+  yield 'hello2';
+  yield 'World2';
+}
+const objOfYield = generatorFunc();
+for (const wordd of objOfYield) {
+  console.log(wordd);
+}
