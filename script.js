@@ -111,7 +111,7 @@ SagMeinZweck();
 //order off precedence ->new->explicit->implicit->default
 
 /////////////////////////////////////////----proptotype-----///////////////////////////////////////////////
-
+////constructor function
 function Person(Vornahme, Nachnahme) {
   this.vor = Vornahme;
   this.nach = Nachnahme;
@@ -138,3 +138,78 @@ Person.prototype.callOut = function () {
 
 console.log(p1.callOut());
 console.log(p2.callOut());
+
+/////inharytance
+function Herrkunft(Vornahme, Nachnahme) {
+  Person.call(this, Vornahme, Nachnahme);
+  this.Ukraine = true;
+}
+Herrkunft.prototype = Object.create(Person.prototype);
+
+Herrkunft.prototype.herausvorderung = function () {
+  return 'middle dev Niveau';
+};
+
+const ich = new Herrkunft('Katza', 'Blancka');
+
+console.log(ich.callOut(), ich.herausvorderung());
+
+///////////////////classes
+
+class Arbeitnehmer {
+  constructor(Vornahme, Nachnahme) {
+    this.vorN = Vornahme;
+    this.nachN = Nachnahme;
+  }
+  congratulation() {
+    return `Wir sind froh, dass du ${this.vorN} ${this.nachN} zu einem Teil von unserem Team werdest!`;
+  }
+}
+
+const ichClass = new Arbeitnehmer('Anna', 'Khalus');
+console.log(ichClass.congratulation());
+
+class Teamlead extends Arbeitnehmer {
+  constructor(Vornahme, Nachnahme) {
+    super(Vornahme, Nachnahme);
+    this.Spitzeposition = true;
+  }
+  theMessage() {
+    return `Seit jetzt ist ${this.vorN} ${this.nachN} für diese abteilung zuständig`;
+  }
+}
+
+const nochIch = new Teamlead('Anna', 'Khalus');
+console.log(nochIch.congratulation(), nochIch.theMessage());
+
+/////////////////////////-------Iterables and Iterators----------------///////////////////////////////////////////////
+
+//////iterator is an object that has a key Symbol.iterator that referes to a function without any props
+/////////in this function we have an object of iterator an we return an iterator
+////////in object of iterator we need to have a key of next that refers to function without any props
+////// next schould return an objact that has two Fertigkeiten the contecst itself and bool done
+////// bool done ist dazu zustandig, dass es zeigt, ob es noch andere Elemente in der Kette gibt
+//////set ist nur für die Logik zuständig
+
+const obj_iteration = {
+  [Symbol.iterator]: function () {
+    let set = 0;
+    const iterator = {
+      next: function () {
+        set++;
+        if (set == 1) {
+          return { value: 'hello', done: false };
+        } else if (set == 2) {
+          return { value: 'world', done: false };
+        } else {
+          return { value: undefined, done: true };
+        }
+      },
+    };
+    return iterator;
+  },
+};
+
+for (const word of obj_iteration) {
+  console.log(word);
+}
